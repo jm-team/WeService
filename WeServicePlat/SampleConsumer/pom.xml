@@ -15,5 +15,15 @@
 	</properties>
 	
 	<dependencies>
+		<dependency>
+			<groupId>com.jumore.we.service</groupId>
+			<artifactId>WeService</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jumore.we.service</groupId>
+			<artifactId>SampleApi</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 	</dependencies>
 </project>
