@@ -11,14 +11,10 @@ import com.jumore.we.service.sample.api.HelloService;
 @RequestMapping(value = "/hello")
 public class HelloServiceImpl implements HelloService{
 
-    public String getVersion() {
-        return "1.0.0";
-    }
-
     @ResponseBody
     @RequestMapping(value = "sayHello")
     public String sayHello(String userName, String from, int age) {
-        return null;
+        return "efw";
     }
 
 }
