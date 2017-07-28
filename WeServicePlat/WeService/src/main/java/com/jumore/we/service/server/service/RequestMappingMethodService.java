@@ -1,5 +1,5 @@
 /**
- * Project Name:WeService File ServiceMetadata.java Package
+ * Project Name:WeService File RequestMappingMethodService.java Package
  * Name:com.jumore.we.service.server Copyright (c) 2017, JUMORE Co.,Ltd. All
  * Rights Reserved.
  *
@@ -21,7 +21,7 @@ import com.jumore.we.service.WeServiceInfo;
  * @version
  * @see
  */
-public class ServiceMetadata {
+public class RequestMappingMethodService {
     /**
      * 应用名称
      */
@@ -71,7 +71,7 @@ public class ServiceMetadata {
      * @param appPort
      * @param servicePath
      */
-    public ServiceMetadata(String application, String appDomain, int appPort, String servicePath, Method service) {
+    public RequestMappingMethodService(String application, String appDomain, int appPort, String servicePath, Method service) {
         this(application, appDomain, appPort, servicePath, service, new Date());
     }
 
@@ -85,7 +85,7 @@ public class ServiceMetadata {
      * @param servicePath
      * @param time
      */
-    public ServiceMetadata(String application, String appDomain, int appPort, String servicePath, Method service, Date time) {
+    public RequestMappingMethodService(String application, String appDomain, int appPort, String servicePath, Method service, Date time) {
         this.sdkVersion = WeServiceInfo.VERSION;
         this.application = application;
         this.appDomain = appDomain;
