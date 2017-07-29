@@ -8,25 +8,33 @@
  */
 package com.jumore.we.service.server.register;
 
-import java.util.List;
-
 /**
  * Function: 服务注册接口
- * T表示服务。服务有多种多样的表现形式，顾使用T表示。
+ * 用一个对象表示Service，支持多注册器。
  * 
  * @author 乔广
  * @date 2017年7月20日 下午2:37:33
  * @version
  * @see
  */
-public interface WeServiceRegister<T> {
+public interface WeServiceRegister {
+    /**
+     * 
+     * supportService:是否能处理此Service.
+     * 
+     * @author 乔广
+     * @date 2017年7月29日 上午7:11:42
+     * @param service
+     */
+    public boolean supportService(Object service);
+    
     /**
      * 
      * registeService:根据Service接口，注册服务.
      * 
      * @author 乔广
      * @date 2017年7月20日 下午2:40:45
-     * @param serviceClazz
+     * @param service
      */
-    public void registeService(List<T> services);
+    public void registeService(Object service);
 }
