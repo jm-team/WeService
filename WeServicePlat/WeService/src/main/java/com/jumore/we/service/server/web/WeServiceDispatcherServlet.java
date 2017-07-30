@@ -8,28 +8,21 @@
  */
 package com.jumore.we.service.server.web;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.DispatcherServlet;
-import org.springframework.web.servlet.HandlerMapping;
-import org.springframework.web.servlet.handler.AbstractHandlerMethodMapping;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import com.jumore.we.service.server.exception.NoWeServiceResolverException;
 import com.jumore.we.service.server.register.CompositeServiceRegister;
 import com.jumore.we.service.server.register.RequestMappingMethodServiceRegister;
 import com.jumore.we.service.server.register.WeServiceRegister;
-import com.jumore.we.service.server.service.RequestMappingMethodService;
-import com.jumore.we.service.utils.ReflectUtils;
+import com.jumore.we.service.server.resolver.CompositeServiceResolver;
+import com.jumore.we.service.server.resolver.WeServiceResolver;
 
 /**
  * 添加服务注册功能
@@ -59,15 +52,38 @@ public class WeServiceDispatcherServlet extends DispatcherServlet {
      * @date 2017年7月29日 上午6:37:32
      */
     private void registeRequestMappingService() {
-        List<RequestMappingMethodService> services = resolveRequestMappingMethodService();
-        // 上面只解析了RequestMappingMethod处理器对应的Service，后面还可以添加其他类型的处理器对应的Service，
-        // 如果有多类型Service的需求，需要抽象ServiceResolver
-        
+        // 这里的返回类型都是composite的实例，可以改成返回list实例。效果一样，但是真正意义上来说，返回集合更好。
+        WeServiceResolver resolver = initResolver();
         WeServiceRegister register = initRegister();
-        
-        for (RequestMappingMethodService requestMappingMethodService : services) {
-            register.registeService(requestMappingMethodService);
+
+        List<Object> services = resolver.resolveService(this);
+        for (Object service : services) {
+            register.registeService(service);
         }
+    }
+
+    /**
+     * initResolver:初始化服务解析器.
+     * 
+     * @author 乔广
+     * @date 2017年7月30日 下午9:11:17
+     * @return
+     */
+    private WeServiceResolver initResolver() {
+        CompositeServiceResolver compositeServiceResolver = new CompositeServiceResolver();
+        Map<String, WeServiceResolver> resolverMap = getWebApplicationContext().getBeansOfType(WeServiceResolver.class);
+
+        if (resolverMap == null || resolverMap.isEmpty()) {
+            // 这里规定，服务解析器是需要配置的，因为解析服务的时候可能需要配置一些内容:比如appName,host,port。
+            // 这些配置在dispatcherservlet中读取也可以，但不符合规范
+            NoWeServiceResolverException e = new NoWeServiceResolverException("no  WeServiceResolver in config");
+            logger.error("no  WeServiceResolver in config", e);
+            throw e;
+        }
+
+        compositeServiceResolver.getResolvers().addAll(resolverMap.values());
+
+        return compositeServiceResolver;
     }
 
     /**
@@ -79,63 +95,18 @@ public class WeServiceDispatcherServlet extends DispatcherServlet {
      */
     private WeServiceRegister initRegister() {
         CompositeServiceRegister compositeServiceRegister = new CompositeServiceRegister();
-        
+
         Map<String, WeServiceRegister> registerMap = getWebApplicationContext().getBeansOfType(WeServiceRegister.class);
 
-        if(registerMap == null || registerMap.isEmpty()){
+        if (registerMap == null || registerMap.isEmpty()) {
             logger.debug("no WeServiceRegister in config");
             RequestMappingMethodServiceRegister rmmsRegister = new RequestMappingMethodServiceRegister();
             compositeServiceRegister.getRegisters().add(rmmsRegister);
-        } else{
+        } else {
             compositeServiceRegister.getRegisters().addAll(registerMap.values());
         }
-        
-        
+
         return compositeServiceRegister;
-    }
-
-    /**
-     * resolveRequestMappingMethodService:解析服务. 
-     * 后续可以考虑抽象成 服务解析器ServiceResolver
-     * 
-     * @author 乔广
-     * @date 2017年7月29日 上午6:39:33
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    private List<RequestMappingMethodService> resolveRequestMappingMethodService() {
-        List<RequestMappingMethodService> services = new ArrayList<RequestMappingMethodService>();
-
-        try {
-            List<HandlerMapping> handlerMappings = (List<HandlerMapping>) ReflectUtils.getFieldValue(DispatcherServlet.class,
-                    "handlerMappings", this);
-
-            for (HandlerMapping handlerMapping : handlerMappings) {
-                if (!(handlerMapping instanceof RequestMappingHandlerMapping)) {
-                    continue;
-                }
-
-                MultiValueMap<String, RequestMappingInfo> urlMap = (MultiValueMap<String, RequestMappingInfo>) ReflectUtils
-                        .getFieldValue(AbstractHandlerMethodMapping.class, "urlMap", handlerMapping);
-                Map<RequestMappingInfo, HandlerMethod> handlerMethods = (Map<RequestMappingInfo, HandlerMethod>) ReflectUtils
-                        .getFieldValue(AbstractHandlerMethodMapping.class, "handlerMethods", handlerMapping);
-
-                for (Entry<String, List<RequestMappingInfo>> urlEntry : urlMap.entrySet()) {
-                    for (RequestMappingInfo requestMappingInfo : urlEntry.getValue()) {
-                        HandlerMethod handlerMethod = handlerMethods.get(requestMappingInfo);
-
-                        RequestMappingMethodService service = new RequestMappingMethodService("jbh", "127.0.0.1", 8080, urlEntry.getKey(),
-                                handlerMethod.getMethod());
-                        services.add(service);
-                    }
-                }
-            }
-        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-            logger.error("resole service failed", e);
-            throw new RuntimeException(e);
-        }
-
-        return services;
     }
 
 }

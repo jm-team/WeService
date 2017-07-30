@@ -55,9 +55,21 @@ public class CompositeServiceRegister implements WeServiceRegister {
 
     @Override
     public void registeService(Object service) {
+        if(registers == null){
+            NullPointerException e = new NullPointerException("registers connot be null");
+            logger.error("registers connot be null", e);
+            throw e;
+        }
+        
+        if(registers.isEmpty()){
+            IllegalArgumentException e = new IllegalArgumentException("registers connot be empty");
+            logger.error("registers connot be empty", e);
+            throw e;
+        }
+        
         for (WeServiceRegister register : registers) {
             if (register == null) {
-                IllegalArgumentException e = new IllegalArgumentException("service register connot be null");
+                NullPointerException e = new NullPointerException("service register connot be null");
                 logger.error("service register connot be null", e);
                 throw e;
             }
