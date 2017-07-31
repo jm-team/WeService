@@ -7,9 +7,12 @@
  * @author 乔广
  * @date 2017年7月20日 下午2:51:29
  */
-package com.jumore.we.service.client;
+package com.jumore.we.service.client.request;
 
-import org.apache.http.HttpEntity;
+import java.lang.reflect.Method;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
 
 /**
  * Function: 请求参数封装
@@ -22,12 +25,12 @@ import org.apache.http.HttpEntity;
 public interface RequestParameterResolver {
     /**
      * 
-     * resolve:请求参数解析成HttpClient请求的HttpEntity.
+     * resolveParameter:解析请求参数.
      * 
      * @author 乔广
      * @date 2017年7月20日 下午2:56:05
      * @param args
      * @return
      */
-    public HttpEntity resolveParameter(Object[] args);
+    public List<NameValuePair> resolveParameter(Method method, Object[] args);
 }

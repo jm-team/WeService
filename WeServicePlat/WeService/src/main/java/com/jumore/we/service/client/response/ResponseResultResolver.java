@@ -6,7 +6,7 @@
  * @author 乔广
  * @date 2017年7月20日 下午3:05:38
  */
-package com.jumore.we.service.client;
+package com.jumore.we.service.client.response;
 
 import org.apache.http.HttpResponse;
 
