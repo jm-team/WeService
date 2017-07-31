@@ -8,6 +8,7 @@
  */
 package com.jumore.we.service.server.register;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +78,11 @@ public class RequestMappingMethodServiceRegister extends AbstractServiceRegister
 
         serviceInfo += "?timestamp=" + serv.getTime().getTime() + "&sdk=" + serv.getSdkVersion();
 
-        return providerPath + PATH_SEPARATOR + URLEncoder.encode(serviceInfo);
+        try {
+            return providerPath + PATH_SEPARATOR + URLEncoder.encode(serviceInfo, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            logger.error("UnsupportedEncoding", e);
+            throw new RuntimeException(e);
+        }
     }
 }
