@@ -50,7 +50,7 @@ public class RequestMappingMethodService {
     /**
      * 应用端口号
      */
-    private int        appPort;
+    private Integer        appPort;
 
     /**
      * 服务相对访问路径
@@ -71,7 +71,7 @@ public class RequestMappingMethodService {
      * @param appPort
      * @param servicePath
      */
-    public RequestMappingMethodService(String application, String appDomain, int appPort, String servicePath, Method service) {
+    public RequestMappingMethodService(String application, String appDomain, Integer appPort, String servicePath, Method service) {
         this(application, appDomain, appPort, servicePath, service, new Date());
     }
 
@@ -85,7 +85,7 @@ public class RequestMappingMethodService {
      * @param servicePath
      * @param time
      */
-    public RequestMappingMethodService(String application, String appDomain, int appPort, String servicePath, Method service, Date time) {
+    public RequestMappingMethodService(String application, String appDomain, Integer appPort, String servicePath, Method service, Date time) {
         this.sdkVersion = WeServiceInfo.VERSION;
         this.application = application;
         this.appDomain = appDomain;
@@ -167,14 +167,14 @@ public class RequestMappingMethodService {
      *
      * @return the appPort
      */
-    public int getAppPort() {
+    public Integer getAppPort() {
         return appPort;
     }
 
     /**
      * @param appPort the appPort to set
      */
-    public void setAppPort(int appPort) {
+    public void setAppPort(Integer appPort) {
         this.appPort = appPort;
     }
 

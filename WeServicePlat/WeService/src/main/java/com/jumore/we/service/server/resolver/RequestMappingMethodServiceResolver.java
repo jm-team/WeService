@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -34,7 +35,7 @@ import com.jumore.we.service.utils.ReflectUtils;
  * @version
  * @see
  */
-public class RequestMappingMethodServiceResolver implements WeServiceResolver {
+public class RequestMappingMethodServiceResolver implements WeServiceResolver, InitializingBean {
     private static final Logger logger = LoggerFactory.getLogger(RequestMappingMethodServiceResolver.class);
 
     /**
@@ -50,7 +51,7 @@ public class RequestMappingMethodServiceResolver implements WeServiceResolver {
     /**
      * 应用端口号
      */
-    private int                 appPort;
+    private Integer                 appPort;
 
     /**
      * application
@@ -89,15 +90,22 @@ public class RequestMappingMethodServiceResolver implements WeServiceResolver {
      *
      * @return the appPort
      */
-    public int getAppPort() {
+    public Integer getAppPort() {
         return appPort;
     }
 
     /**
      * @param appPort the appPort to set
      */
-    public void setAppPort(int appPort) {
+    public void setAppPort(Integer appPort) {
         this.appPort = appPort;
+    }
+    
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        if(appPort == null){
+            appPort = 80;
+        }
     }
 
     @Override

@@ -54,8 +54,24 @@ public abstract class AbstractServiceRegister implements WeServiceRegister {
         }
 
         for (RegistrationCenter registrationCenter : rcenters) {
-            registrationCenter.remoteRegistry(service);
+            List<Object> registryModel = resolveRegistryModel(service);
+            
+            for (Object model : registryModel) {
+                if (registrationCenter.support(model)) {
+                    registrationCenter.remoteRegistry(model);
+                }
+            }
         }
     }
+
+    /**
+     * resolveRegistryModel:从service中，解析出远程注册所需要的对象.
+     * 
+     * @author 乔广
+     * @date 2017年7月31日 上午10:07:52
+     * @param service
+     * @return
+     */
+    protected abstract List<Object> resolveRegistryModel(Object service);
 
 }

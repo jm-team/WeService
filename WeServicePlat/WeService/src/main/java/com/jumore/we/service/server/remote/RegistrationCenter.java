@@ -17,5 +17,24 @@ package com.jumore.we.service.server.remote;
  * @see
  */
 public interface RegistrationCenter {
-    public void remoteRegistry(Object target);
+    /**
+     * 
+     * support:是否支持.
+     * 
+     * @author 乔广
+     * @date 2017年7月31日 上午10:11:47
+     * @param model
+     * @return
+     */
+    public boolean support(Object model);
+    
+    /**
+     * 
+     * remoteRegistry:远程注册.
+     * 
+     * @author 乔广
+     * @date 2017年7月31日 上午10:12:02
+     * @param model
+     */
+    public void remoteRegistry(Object model);
 }
