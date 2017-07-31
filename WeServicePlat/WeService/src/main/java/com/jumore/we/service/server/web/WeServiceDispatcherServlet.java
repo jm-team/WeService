@@ -8,6 +8,7 @@
  */
 package com.jumore.we.service.server.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,10 +18,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.DispatcherServlet;
 
+import com.jumore.we.service.server.exception.NoRegistrationCenterException;
 import com.jumore.we.service.server.exception.NoWeServiceResolverException;
+import com.jumore.we.service.server.register.AbstractServiceRegister;
 import com.jumore.we.service.server.register.CompositeServiceRegister;
 import com.jumore.we.service.server.register.RequestMappingMethodServiceRegister;
 import com.jumore.we.service.server.register.WeServiceRegister;
+import com.jumore.we.service.server.remote.RegistrationCenter;
 import com.jumore.we.service.server.resolver.CompositeServiceResolver;
 import com.jumore.we.service.server.resolver.WeServiceResolver;
 
@@ -105,8 +109,42 @@ public class WeServiceDispatcherServlet extends DispatcherServlet {
         } else {
             compositeServiceRegister.getRegisters().addAll(registerMap.values());
         }
+        
+        initRegistrationCenter(compositeServiceRegister);
 
         return compositeServiceRegister;
+    }
+
+    /**
+     * initRegistrationCenter:初始化注册中心.
+     * 
+     * @author 乔广
+     * @date 2017年7月31日 上午9:34:22
+     * @param serviceRegister
+     */
+    private void initRegistrationCenter(WeServiceRegister serviceRegister) {
+        Map<String, RegistrationCenter> rCentersMap = getWebApplicationContext().getBeansOfType(RegistrationCenter.class);
+        
+        if (rCentersMap == null || rCentersMap.isEmpty()) {
+            String eMsg = "no RegistrationCenter in config";
+            NoRegistrationCenterException e = new NoRegistrationCenterException(eMsg);
+            logger.error(eMsg, e);
+            throw e;
+        }
+        
+        List<RegistrationCenter> rCenters = new ArrayList<RegistrationCenter>(rCentersMap.values());
+        
+        if(serviceRegister instanceof CompositeServiceRegister){
+            for (WeServiceRegister register : ((CompositeServiceRegister) serviceRegister).getRegisters()) {
+                if(register instanceof AbstractServiceRegister){
+                    ((AbstractServiceRegister) register).setRcenters(rCenters);
+                }
+            }
+        }
+        
+        if(serviceRegister instanceof AbstractServiceRegister){
+            ((AbstractServiceRegister) serviceRegister).setRcenters(rCenters);
+        }
     }
 
 }
