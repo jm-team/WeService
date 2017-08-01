@@ -13,7 +13,7 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 
 /**
- * Function: 将请求参数转换为请求字符串
+ * Function: 将请求参数转换为请求键值对
  * 
  * @author 乔广
  * @date 2017年8月1日 上午10:51:52
