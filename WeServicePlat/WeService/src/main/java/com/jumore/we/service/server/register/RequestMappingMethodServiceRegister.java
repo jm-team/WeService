@@ -76,7 +76,7 @@ public class RequestMappingMethodServiceRegister extends AbstractServiceRegister
 
         serviceInfo += serv.getServicePath();
 
-        serviceInfo += "?timestamp=" + serv.getTime().getTime() + "&sdk=" + serv.getSdkVersion();
+        serviceInfo += "?timestamp=" + serv.getTime().getTime() + "&sdk=" + serv.getSdkVersion() + "&weight=" + serv.getWeight();
 
         try {
             return providerPath + PATH_SEPARATOR + URLEncoder.encode(serviceInfo, "utf-8");

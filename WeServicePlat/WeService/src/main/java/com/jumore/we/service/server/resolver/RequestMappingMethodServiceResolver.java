@@ -9,6 +9,7 @@
 package com.jumore.we.service.server.resolver;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -51,7 +52,12 @@ public class RequestMappingMethodServiceResolver implements WeServiceResolver, I
     /**
      * 应用端口号
      */
-    private Integer                 appPort;
+    private Integer             appPort;
+
+    /**
+     * 权重
+     */
+    private Integer             weight;
 
     /**
      * application
@@ -100,11 +106,31 @@ public class RequestMappingMethodServiceResolver implements WeServiceResolver, I
     public void setAppPort(Integer appPort) {
         this.appPort = appPort;
     }
-    
+
+    /**
+     * weight
+     *
+     * @return the weight
+     */
+    public Integer getWeight() {
+        return weight;
+    }
+
+    /**
+     * @param weight the weight to set
+     */
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
     @Override
     public void afterPropertiesSet() throws Exception {
-        if(appPort == null){
+        if (appPort == null) {
             appPort = 80;
+        }
+
+        if (weight == null || weight < 1) {
+            weight = 1;
         }
     }
 
@@ -132,7 +158,7 @@ public class RequestMappingMethodServiceResolver implements WeServiceResolver, I
                         HandlerMethod handlerMethod = handlerMethods.get(requestMappingInfo);
 
                         RequestMappingMethodService service = new RequestMappingMethodService(application, appDomain, appPort,
-                                urlEntry.getKey(), handlerMethod.getMethod());
+                                urlEntry.getKey(), weight, handlerMethod.getMethod(), new Date());
                         services.add(service);
                     }
                 }

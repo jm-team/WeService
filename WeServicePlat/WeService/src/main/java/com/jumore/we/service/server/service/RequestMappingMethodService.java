@@ -50,7 +50,7 @@ public class RequestMappingMethodService {
     /**
      * 应用端口号
      */
-    private Integer        appPort;
+    private Integer    appPort;
 
     /**
      * 服务相对访问路径
@@ -61,6 +61,11 @@ public class RequestMappingMethodService {
      * 服务创建时间
      */
     private Date       time;
+
+    /**
+     * 权重
+     */
+    private Integer    weight;
 
     /**
      * Creates a new instance of ServiceMetadata
@@ -85,12 +90,29 @@ public class RequestMappingMethodService {
      * @param servicePath
      * @param time
      */
-    public RequestMappingMethodService(String application, String appDomain, Integer appPort, String servicePath, Method service, Date time) {
+    public RequestMappingMethodService(String application, String appDomain, Integer appPort, String servicePath, Method service,
+            Date time) {
+        this(application, appDomain, appPort, servicePath, 1, service, time);
+    }
+
+    /**
+     * Creates a new instance of ServiceMetadata
+     * 
+     * @param application
+     * @param service
+     * @param appDomain
+     * @param appPort
+     * @param servicePath
+     * @param time
+     */
+    public RequestMappingMethodService(String application, String appDomain, Integer appPort, String servicePath, Integer weight,
+            Method service, Date time) {
         this.sdkVersion = WeServiceInfo.VERSION;
         this.application = application;
         this.appDomain = appDomain;
         this.appPort = appPort;
         this.servicePath = servicePath;
+        this.weight = weight;
         this.time = time;
         setService(service);
     }
@@ -208,5 +230,21 @@ public class RequestMappingMethodService {
      */
     public void setTime(Date time) {
         this.time = time;
+    }
+    
+    /**
+     * weight
+     *
+     * @return the weight
+     */
+    public Integer getWeight() {
+        return weight;
+    }
+    
+    /**
+     * @param weight the weight to set
+     */
+    public void setWeight(Integer weight) {
+        this.weight = weight;
     }
 }
