@@ -6,7 +6,7 @@
  * @author 乔广
  * @date 2017年7月31日 下午7:40:35
  */
-package com.jumore.we.service.client.request;
+package com.jumore.we.service.client.request.parameter.setter;
 
 import java.util.List;
 

@@ -1,13 +1,12 @@
-/** 
- * Project Name:WeServiceClient 
- * File Name:RequestParameterResolver.java 
- * Package Name:com.jumore.we.service.client
- * Copyright (c) 2017, JUMORE Co.,Ltd. All Rights Reserved. 
+/**
+ * Project Name:WeServiceClient File Name:RequestParameterResolver.java Package
+ * Name:com.jumore.we.service.client Copyright (c) 2017, JUMORE Co.,Ltd. All
+ * Rights Reserved.
  *
  * @author 乔广
  * @date 2017年7月20日 下午2:51:29
  */
-package com.jumore.we.service.client.request;
+package com.jumore.we.service.client.request.parameter.resolver;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -19,7 +18,7 @@ import org.apache.http.NameValuePair;
  * 
  * @author 乔广
  * @date 2017年7月20日 下午2:51:29
- * @version 
+ * @version
  * @see
  */
 public interface RequestParameterResolver {

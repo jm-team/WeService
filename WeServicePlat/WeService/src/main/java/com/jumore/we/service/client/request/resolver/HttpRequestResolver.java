@@ -6,7 +6,7 @@
  * @author 乔广
  * @date 2017年7月20日 下午3:03:23
  */
-package com.jumore.we.service.client.request;
+package com.jumore.we.service.client.request.resolver;
 
 import org.apache.http.client.methods.HttpRequestBase;
 

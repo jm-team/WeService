@@ -7,7 +7,7 @@
  * @author 乔广
  * @date 2017年7月31日 下午7:23:58
  */
-package com.jumore.we.service.client.request;
+package com.jumore.we.service.client.request.resolver;
 
 import java.lang.reflect.Method;
 import java.net.URI;

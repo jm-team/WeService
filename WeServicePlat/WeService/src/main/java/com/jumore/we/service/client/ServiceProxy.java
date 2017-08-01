@@ -28,10 +28,12 @@ import com.jumore.we.service.client.mapping.ServiceMapping;
 import com.jumore.we.service.client.mapping.ZookeeperServiceMapping;
 import com.jumore.we.service.client.mapping.selector.ServiceSelector;
 import com.jumore.we.service.client.mapping.selector.WeightRandomServiceSelector;
-import com.jumore.we.service.client.request.HttpPostResolver;
-import com.jumore.we.service.client.request.HttpRequestResolver;
-import com.jumore.we.service.client.request.RequestParameterResolver;
-import com.jumore.we.service.client.request.RequestParameterSetter;
+import com.jumore.we.service.client.request.parameter.resolver.RequestParameterResolver;
+import com.jumore.we.service.client.request.parameter.resolver.SimpleRequestParameterResolver;
+import com.jumore.we.service.client.request.parameter.setter.RequestParameterSetter;
+import com.jumore.we.service.client.request.parameter.setter.SimpleRequestParameterSetter;
+import com.jumore.we.service.client.request.resolver.HttpPostResolver;
+import com.jumore.we.service.client.request.resolver.HttpRequestResolver;
 import com.jumore.we.service.client.response.ResponseResultResolver;
 
 /**
@@ -104,6 +106,14 @@ public class ServiceProxy {
         // setting HttpRequestResolver
         HttpRequestResolver requestResolver = new HttpPostResolver();
         proxy.setRequestResolver(requestResolver);
+
+        // setting RequestParameterResolver
+        RequestParameterResolver requestParameterResolver = new SimpleRequestParameterResolver();
+        proxy.setRequestParameterResolver(requestParameterResolver);
+
+        // setting RequestParameterSetter
+        RequestParameterSetter requestParameterSetter = new SimpleRequestParameterSetter();
+        proxy.setRequestParameterSetter(requestParameterSetter);
 
         return proxy;
     }
