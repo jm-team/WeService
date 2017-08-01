@@ -40,6 +40,8 @@ import com.jumore.we.service.client.request.parameter.setter.SimpleRequestParame
 import com.jumore.we.service.client.request.resolver.HttpPostResolver;
 import com.jumore.we.service.client.request.resolver.HttpRequestResolver;
 import com.jumore.we.service.client.response.ResponseResultResolver;
+import com.jumore.we.service.client.response.SimpleResponseResultResolver;
+import com.jumore.we.service.client.response.converter.StringResultConverter;
 
 /**
  * Function: 服务代理
@@ -124,17 +126,26 @@ public class ServiceProxy {
         RequestParameterSetter requestParameterSetter = new SimpleRequestParameterSetter();
         proxy.setRequestParameterSetter(requestParameterSetter);
 
+        // setting ResponseResultResolver
+        SimpleResponseResultResolver responseResultResolver = new SimpleResponseResultResolver();
+        responseResultResolver.addConverter(new StringResultConverter());
+        proxy.setResponseResultResolver(responseResultResolver);
+
         return proxy;
     }
 
     @SuppressWarnings("unchecked")
     public <T> T newProxy(final Class<T> serviceClass) {
         if (serviceClass == null) {
-            throw new NullPointerException("Service class connot be null");
+            NullPointerException e = new NullPointerException("Service class connot be null");
+            logger.error(e.getMessage(), e);
+            throw e;
         }
 
         if (!serviceClass.isInterface()) {
-            throw new IllegalArgumentException("Service class must be a interface");
+            IllegalArgumentException e = new IllegalArgumentException("Service class must be a interface");
+            logger.error(e.getMessage(), e);
+            throw e;
         }
 
         return (T) Proxy.newProxyInstance(ServiceProxy.class.getClassLoader(), new Class[] { serviceClass }, new InvocationHandler() {

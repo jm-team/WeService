@@ -60,7 +60,10 @@ public abstract class AbstractRequestParameterResolver implements RequestParamet
             for (RequestParameterFormatter parameterFormatter : getRequestParameterFormatters()) {
                 if (parameterFormatter.support(parameterValue)) {
                     list = parameterFormatter.format(parameterName, parameterValue);
-                    break;
+                    
+                    if(list != null){
+                        break;
+                    }
                 }
             }
 
