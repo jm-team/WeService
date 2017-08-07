@@ -8,6 +8,7 @@
  */
 package com.jumore.we.service.server.resolver;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -156,10 +157,12 @@ public class RequestMappingMethodServiceResolver implements WeServiceResolver, I
                 for (Entry<String, List<RequestMappingInfo>> urlEntry : urlMap.entrySet()) {
                     for (RequestMappingInfo requestMappingInfo : urlEntry.getValue()) {
                         HandlerMethod handlerMethod = handlerMethods.get(requestMappingInfo);
-
                         RequestMappingMethodService service = new RequestMappingMethodService(application, appDomain, appPort,
                                 urlEntry.getKey(), weight, handlerMethod.getMethod(), new Date());
-                        services.add(service);
+
+                        if (isService(service)) {
+                            services.add(service);
+                        }
                     }
                 }
             }
@@ -171,4 +174,15 @@ public class RequestMappingMethodServiceResolver implements WeServiceResolver, I
         return services;
     }
 
+    /**
+     * isService:验证是否为服务.验证逻辑：有接口定义了此方法。
+     * 
+     * @author 乔广
+     * @date 2017年8月7日 下午3:50:56
+     * @param handlerMethod
+     * @return
+     */
+    protected boolean isService(RequestMappingMethodService service) {
+        return service.getContainers() != null && !service.getContainers().isEmpty();
+    }
 }

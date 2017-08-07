@@ -9,7 +9,9 @@
 package com.jumore.we.service.server.service;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.jumore.we.service.WeServiceInfo;
 
@@ -25,47 +27,47 @@ public class RequestMappingMethodService {
     /**
      * 应用名称
      */
-    private String     application;
+    private String         application;
 
     /**
      * 当前sdk版本
      */
-    private String     sdkVersion;
+    private String         sdkVersion;
 
     /**
      * 服务所在类实现的接口。因为无法确定哪个接口是服务接口，所以实现的所有接口，都会拼接method name注册
      */
-    private Class<?>[] containers;
+    private List<Class<?>> containers;
 
     /**
      * 服务方法
      */
-    private Method     service;
+    private Method         service;
 
     /**
      * 应用域名
      */
-    private String     appDomain;
+    private String         appDomain;
 
     /**
      * 应用端口号
      */
-    private Integer    appPort;
+    private Integer        appPort;
 
     /**
      * 服务相对访问路径
      */
-    private String     servicePath;
+    private String         servicePath;
 
     /**
      * 服务创建时间
      */
-    private Date       time;
+    private Date           time;
 
     /**
      * 权重
      */
-    private Integer    weight;
+    private Integer        weight;
 
     /**
      * Creates a new instance of ServiceMetadata
@@ -147,8 +149,30 @@ public class RequestMappingMethodService {
      *
      * @return the container
      */
-    public Class<?>[] getContainers() {
+    public List<Class<?>> getContainers() {
         return containers;
+    }
+
+    /**
+     * setContainers:获取定义此方法的接口.
+     * 
+     * @author 乔广
+     * @date 2017年8月7日 下午3:49:24
+     * @param service
+     */
+    private void setContainers(Method service) {
+        List<Class<?>> containers = new ArrayList<Class<?>>();
+
+        for (Class<?> inter : (Class<?>[]) service.getDeclaringClass().getGenericInterfaces()) {
+            try {
+                inter.getMethod(service.getName(), service.getParameterTypes());
+                containers.add(inter);
+            } catch (NoSuchMethodException | SecurityException e) {
+                continue;
+            }
+        }
+
+        this.containers = containers;
     }
 
     /**
@@ -165,7 +189,7 @@ public class RequestMappingMethodService {
      */
     public void setService(Method service) {
         this.service = service;
-        this.containers = (Class<?>[]) service.getDeclaringClass().getGenericInterfaces();
+        setContainers(service);
     }
 
     /**
@@ -231,7 +255,7 @@ public class RequestMappingMethodService {
     public void setTime(Date time) {
         this.time = time;
     }
-    
+
     /**
      * weight
      *
@@ -240,7 +264,7 @@ public class RequestMappingMethodService {
     public Integer getWeight() {
         return weight;
     }
-    
+
     /**
      * @param weight the weight to set
      */
