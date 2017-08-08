@@ -23,7 +23,7 @@ public class PojoResultConverter implements ResponseResultConverter {
 
     @Override
     public boolean support(Class<?> clazz) {
-        return Object.class.equals(clazz);
+        return Object.class.isAssignableFrom(clazz);
     }
 
     /** 
