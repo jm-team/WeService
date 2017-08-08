@@ -15,7 +15,6 @@ import java.net.URI;
 import java.util.List;
 
 import org.I0Itec.zkclient.ZkClient;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -28,11 +27,9 @@ import com.jumore.we.service.client.mapping.ServiceMapping;
 import com.jumore.we.service.client.mapping.ZookeeperServiceMapping;
 import com.jumore.we.service.client.mapping.selector.ServiceSelector;
 import com.jumore.we.service.client.mapping.selector.WeightRandomServiceSelector;
-import com.jumore.we.service.client.request.parameter.formatter.PrimitiveParameterFormatter;
-import com.jumore.we.service.client.request.parameter.formatter.StringParameterFormatter;
+import com.jumore.we.service.client.request.parameter.formatter.CommonParameterFormatter;
 import com.jumore.we.service.client.request.parameter.name.resolver.RequestParameterNameResolver;
 import com.jumore.we.service.client.request.parameter.name.resolver.ThoughtworksParameterNameResolver;
-import com.jumore.we.service.client.request.parameter.resolver.AbstractRequestParameterResolver;
 import com.jumore.we.service.client.request.parameter.resolver.RequestParameterResolver;
 import com.jumore.we.service.client.request.parameter.resolver.SimpleRequestParameterResolver;
 import com.jumore.we.service.client.request.parameter.setter.RequestParameterSetter;
@@ -118,8 +115,7 @@ public class ServiceProxy {
         SimpleRequestParameterResolver requestParameterResolver = new SimpleRequestParameterResolver();
         RequestParameterNameResolver parameterNameResolver = new ThoughtworksParameterNameResolver();
         requestParameterResolver.setRequestParameterNameResolver(parameterNameResolver);
-        requestParameterResolver.addFormatter(new StringParameterFormatter());
-        requestParameterResolver.addFormatter(new PrimitiveParameterFormatter());
+        requestParameterResolver.addFormatter(new CommonParameterFormatter());
         proxy.setRequestParameterResolver(requestParameterResolver);
 
         // setting RequestParameterSetter
