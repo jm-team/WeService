@@ -1,6 +1,6 @@
 /** 
  * Project Name:WeService 
- * File Name:ArrayRequestParameterFormatter.java 
+ * File Name:ArrayParameterFormatter.java 
  * Package Name:com.jumore.we.service.client.request.parameter.formatter
  * Copyright (c) 2017, JUMORE Co.,Ltd. All Rights Reserved. 
  *
@@ -24,7 +24,7 @@ import org.apache.http.message.BasicNameValuePair;
  * @version 
  * @see
  */
-public class ArrayRequestParameterFormatter extends AbstractRequestParameterFormatter {
+public class ArrayParameterFormatter extends AbstractRequestParameterFormatter {
     @Override
     protected boolean supportForNotNull(Object param) {
         return param instanceof Array;

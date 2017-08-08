@@ -1,5 +1,5 @@
 /**
- * Project Name:WeService File Name:CommonRequestParameterFormatter.java Package
+ * Project Name:WeService File Name:CommonParameterFormatter.java Package
  * Name:com.jumore.we.service.client.request.parameter.formatter Copyright (c)
  * 2017, JUMORE Co.,Ltd. All Rights Reserved.
  *
@@ -32,8 +32,8 @@ import org.springframework.cglib.core.ReflectUtils;
  * @version
  * @see
  */
-public class CommonRequestParameterFormatter extends AbstractRequestParameterFormatter {
-    private static final Logger logger     = LoggerFactory.getLogger(CommonRequestParameterFormatter.class);
+public class CommonParameterFormatter extends AbstractRequestParameterFormatter {
+    private static final Logger logger     = LoggerFactory.getLogger(CommonParameterFormatter.class);
     private String              pattern    = "yyyy-MM-dd HH:mm:ss";
     private SimpleDateFormat    dateFormat = new SimpleDateFormat(pattern);
 
