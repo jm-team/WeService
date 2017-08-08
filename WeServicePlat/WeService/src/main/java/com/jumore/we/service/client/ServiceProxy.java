@@ -38,6 +38,16 @@ import com.jumore.we.service.client.request.resolver.HttpPostResolver;
 import com.jumore.we.service.client.request.resolver.HttpRequestResolver;
 import com.jumore.we.service.client.response.ResponseResultResolver;
 import com.jumore.we.service.client.response.SimpleResponseResultResolver;
+import com.jumore.we.service.client.response.converter.BooleanResultConverter;
+import com.jumore.we.service.client.response.converter.ByteResultConverter;
+import com.jumore.we.service.client.response.converter.CharacterResultConverter;
+import com.jumore.we.service.client.response.converter.DateResultConverter;
+import com.jumore.we.service.client.response.converter.DoubleResultConverter;
+import com.jumore.we.service.client.response.converter.FloatResultConverter;
+import com.jumore.we.service.client.response.converter.IntegerResultConverter;
+import com.jumore.we.service.client.response.converter.LongResultConverter;
+import com.jumore.we.service.client.response.converter.PojoResultConverter;
+import com.jumore.we.service.client.response.converter.ShortResultConverter;
 import com.jumore.we.service.client.response.converter.StringResultConverter;
 
 /**
@@ -125,6 +135,16 @@ public class ServiceProxy {
         // setting ResponseResultResolver
         SimpleResponseResultResolver responseResultResolver = new SimpleResponseResultResolver();
         responseResultResolver.addConverter(new StringResultConverter());
+        responseResultResolver.addConverter(new BooleanResultConverter());
+        responseResultResolver.addConverter(new ByteResultConverter());
+        responseResultResolver.addConverter(new CharacterResultConverter());
+        responseResultResolver.addConverter(new DateResultConverter());
+        responseResultResolver.addConverter(new DoubleResultConverter());
+        responseResultResolver.addConverter(new FloatResultConverter());
+        responseResultResolver.addConverter(new IntegerResultConverter());
+        responseResultResolver.addConverter(new LongResultConverter());
+        responseResultResolver.addConverter(new ShortResultConverter());
+        responseResultResolver.addConverter(new PojoResultConverter());
         proxy.setResponseResultResolver(responseResultResolver);
 
         return proxy;
