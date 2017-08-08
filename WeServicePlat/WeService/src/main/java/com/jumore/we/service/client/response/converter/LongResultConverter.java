@@ -20,7 +20,7 @@ public class LongResultConverter implements ResponseResultConverter {
 
     @Override
     public boolean support(Class<?> clazz) {
-        return Long.class.equals(clazz);
+        return Long.class.equals(clazz) || long.class.equals(clazz);
     }
 
     @Override

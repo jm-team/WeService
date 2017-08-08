@@ -20,7 +20,7 @@ public class FloatResultConverter implements ResponseResultConverter {
 
     @Override
     public boolean support(Class<?> clazz) {
-        return Float.class.equals(clazz);
+        return Float.class.equals(clazz) || float.class.equals(clazz);
     }
 
     @Override

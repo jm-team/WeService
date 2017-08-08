@@ -1,8 +1,7 @@
-/** 
- * Project Name:WeService 
- * File Name:IntegerResultConverter.java 
- * Package Name:com.jumore.we.service.client.response.converter
- * Copyright (c) 2017, JUMORE Co.,Ltd. All Rights Reserved. 
+/**
+ * Project Name:WeService File Name:IntegerResultConverter.java Package
+ * Name:com.jumore.we.service.client.response.converter Copyright (c) 2017,
+ * JUMORE Co.,Ltd. All Rights Reserved.
  *
  * @author 乔广
  * @date 2017年8月8日 下午2:31:59
@@ -14,14 +13,14 @@ package com.jumore.we.service.client.response.converter;
  * 
  * @author 乔广
  * @date 2017年8月8日 下午2:31:59
- * @version 
+ * @version
  * @see
  */
 public class IntegerResultConverter implements ResponseResultConverter {
 
     @Override
     public boolean support(Class<?> clazz) {
-        return Integer.class.equals(clazz);
+        return Integer.class.equals(clazz) || int.class.equals(clazz);
     }
 
     @Override

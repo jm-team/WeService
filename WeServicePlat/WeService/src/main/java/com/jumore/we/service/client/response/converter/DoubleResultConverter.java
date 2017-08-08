@@ -21,7 +21,7 @@ public class DoubleResultConverter implements ResponseResultConverter {
 
     @Override
     public boolean support(Class<?> clazz) {
-        return Double.class.equals(clazz);
+        return Double.class.equals(clazz) || double.class.equals(clazz);
     }
 
     @Override

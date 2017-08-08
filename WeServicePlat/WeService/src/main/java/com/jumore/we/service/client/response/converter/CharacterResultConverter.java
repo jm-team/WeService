@@ -27,7 +27,7 @@ public class CharacterResultConverter implements ResponseResultConverter {
 
     @Override
     public boolean support(Class<?> clazz) {
-        return Character.class.equals(clazz);
+        return Character.class.equals(clazz) || char.class.equals(clazz);
     }
 
     @Override

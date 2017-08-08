@@ -1,8 +1,7 @@
-/** 
- * Project Name:WeService 
- * File Name:BooleanResultConverter.java 
- * Package Name:com.jumore.we.service.client.response.converter
- * Copyright (c) 2017, JUMORE Co.,Ltd. All Rights Reserved. 
+/**
+ * Project Name:WeService File Name:BooleanResultConverter.java Package
+ * Name:com.jumore.we.service.client.response.converter Copyright (c) 2017,
+ * JUMORE Co.,Ltd. All Rights Reserved.
  *
  * @author 乔广
  * @date 2017年8月8日 下午2:35:11
@@ -14,14 +13,14 @@ package com.jumore.we.service.client.response.converter;
  * 
  * @author 乔广
  * @date 2017年8月8日 下午2:35:11
- * @version 
+ * @version
  * @see
  */
 public class BooleanResultConverter implements ResponseResultConverter {
 
     @Override
     public boolean support(Class<?> clazz) {
-        return Boolean.class.equals(clazz);
+        return Boolean.class.equals(clazz) || boolean.class.equals(clazz);
     }
 
     @Override

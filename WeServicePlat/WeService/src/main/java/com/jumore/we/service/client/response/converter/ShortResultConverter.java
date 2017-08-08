@@ -20,7 +20,7 @@ public class ShortResultConverter implements ResponseResultConverter {
 
     @Override
     public boolean support(Class<?> clazz) {
-        return Short.class.equals(clazz);
+        return Short.class.equals(clazz) || short.class.equals(clazz);
     }
 
     @Override
