@@ -8,12 +8,6 @@
  */
 package com.jumore.we.service.client.request.parameter.formatter;
 
-import java.util.Collections;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
 /**
  * Function: 基础类型转换器
  * 
@@ -22,22 +16,10 @@ import org.apache.http.message.BasicNameValuePair;
  * @version
  * @see
  */
-public class PrimitiveParameterFormatter implements RequestParameterFormatter {
-
+public class PrimitiveParameterFormatter extends AbstractRequestParameterFormatter {
     @Override
-    public boolean support(Object param) {
-        if (param == null) {
-            return false;
-        }
-
+    protected boolean supportForNotNull(Object param) {
         return param instanceof Integer || param instanceof Long || param instanceof Float || param instanceof Double
                 || param instanceof Short || param instanceof Byte || param instanceof Character || param instanceof Boolean;
     }
-
-    @Override
-    public List<NameValuePair> format(String name, Object param) {
-        NameValuePair pair = new BasicNameValuePair(name, String.valueOf(param));
-        return Collections.singletonList(pair);
-    }
-
 }
