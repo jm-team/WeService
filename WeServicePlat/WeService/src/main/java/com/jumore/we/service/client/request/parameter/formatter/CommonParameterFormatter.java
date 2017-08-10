@@ -12,6 +12,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -88,6 +89,10 @@ public class CommonParameterFormatter extends AbstractRequestParameterFormatter 
             return doFormatArrayType(prefix, name, param);
         }
 
+        if (isCollection(param.getClass())) {
+            return doFormatCollectionType(prefix, name, param);
+        }
+
         List<NameValuePair> pairs = new ArrayList<NameValuePair>();
         PropertyDescriptor[] getters = ReflectUtils.getBeanGetters(param.getClass());
 
@@ -101,7 +106,7 @@ public class CommonParameterFormatter extends AbstractRequestParameterFormatter 
                 logger.error("Ignore this error", e);
             }
 
-            if (isSimpleType(getter.getPropertyType()) || getter.getPropertyType().isArray()) {
+            if (isSimpleType(getter.getPropertyType()) || isArray(getter.getPropertyType()) || isCollection(getter.getPropertyType())) {
                 list = doFormat(prefix, getter.getDisplayName(), value);
             } else {
                 list = doFormat(getName(prefix, getter.getDisplayName()), StringUtils.EMPTY, value);
@@ -138,7 +143,7 @@ public class CommonParameterFormatter extends AbstractRequestParameterFormatter 
     }
 
     /**
-     * doFormatArrayType:格式化数组.
+     * doFormatArrayType:格式化数组.支持简单类型的数组（也没有必要支持pojo数组）。
      * 
      * @author 乔广
      * @date 2017年8月8日 下午1:18:52
@@ -152,6 +157,28 @@ public class CommonParameterFormatter extends AbstractRequestParameterFormatter 
         Object[] arr = (Object[]) param;
 
         for (Object obj : arr) {
+            NameValuePair pair = new BasicNameValuePair(getName(prefix, name), obj.toString());
+            pairs.add(pair);
+        }
+
+        return pairs;
+    }
+
+    /**
+     * doFormatCollectionType:格式化集合.支持简单类型的集合（也没有必要支持pojo集合）。
+     * 
+     * @author 乔广
+     * @date 2017年8月10日 上午8:35:53
+     * @param prefix
+     * @param name
+     * @param param
+     * @return
+     */
+    private List<NameValuePair> doFormatCollectionType(String prefix, String name, Object param) {
+        List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+        Collection<?> collection = (Collection<?>) param;
+
+        for (Object obj : collection) {
             NameValuePair pair = new BasicNameValuePair(getName(prefix, name), obj.toString());
             pairs.add(pair);
         }
@@ -183,6 +210,18 @@ public class CommonParameterFormatter extends AbstractRequestParameterFormatter 
      */
     private boolean isArray(Class<?> type) {
         return type.isArray();
+    }
+
+    /**
+     * isCollection:判断是否为集合.
+     * 
+     * @author 乔广
+     * @date 2017年8月10日 上午8:36:23
+     * @param type
+     * @return
+     */
+    private boolean isCollection(Class<?> type) {
+        return Collection.class.isAssignableFrom(type);
     }
 
     public String getName(String prefix, String name) {
